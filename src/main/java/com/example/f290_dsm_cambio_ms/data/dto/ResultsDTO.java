@@ -1,10 +1,12 @@
 package com.example.f290_dsm_cambio_ms.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class ResultsDTO {
-    //TODO: Configurar atributos
+    @JsonProperty("currencies")
+    private CurrenciesDataDTO currencies;
 }

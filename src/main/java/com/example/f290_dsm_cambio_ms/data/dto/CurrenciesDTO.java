@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CurrenciesDTO {
-    //TODO: Configurar atributos
+    @JsonProperty("results")
+    private ResultsDTO results;
 }
 
 

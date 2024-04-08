@@ -1,18 +1,44 @@
 package com.example.f290_dsm_cambio_ms.resources;
 
+import com.example.f290_dsm_cambio_ms.data.dto.CurrenciesDTO;
+import com.example.f290_dsm_cambio_ms.data.dto.CurrencyDTO;
+import com.example.f290_dsm_cambio_ms.domain.entities.Dollar;
+import com.example.f290_dsm_cambio_ms.domain.repositories.DollarRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClient;
 
 
 @RestController
 @RequestMapping("/currencies")
 public class CurrencyResource {
 
-    //TODO: Adicionar dependencias
+    private final RestClient restClient;
+    private final DollarRepository dollarRepository;
+    private final ModelMapper mapper;
 
-    //TODO: Inicializar dependencias
+    public CurrencyResource(
+            RestClient restClient,
+            DollarRepository dollarRepository,
+            ModelMapper mapper) {
+        this.restClient = restClient;
+        this.dollarRepository = dollarRepository;
+        this.mapper = mapper;
+    }
 
-    //TODO: Criar requisição de testes gerais
+    @GetMapping
+    public CurrenciesDTO getCurrencies() {
+        return restClient.get()
+                .uri("https://api.hgbrasil.com/finance?key=90230925")
+                .retrieve()
+                .body(CurrenciesDTO.class);
+    }
 
-    //TODO: Criar requisição de testes de moeda especifica
+    @GetMapping("/dollar")
+    public CurrencyDTO getDollarCurrency() {
+        Dollar dollar = dollarRepository.getLast();
+        return mapper.map(dollar, CurrencyDTO.class);
+    }
 }
